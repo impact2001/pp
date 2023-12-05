@@ -1,0 +1,21 @@
+contract Fitness{
+    struct Activity {
+        string activity;
+        uint points;
+    }
+    mapping (address => Activity[]) Activities;
+    function regActivity(string memory _activity, uint _points) public {
+        Activities[msg.sender].push(Activity(_activity, _points));
+    }
+    function getActivity(uint _i) public view returns (string memory activity, uint points){
+        Activity memory act = Activities[msg.sender][_i];
+        return (act.activity, act.points);
+    }
+    function getPoints()public view returns (uint) {
+        uint totalPoints = 0;
+        for(uint i = 0; i<Activities[msg.sender].length; i++){
+            totalPoints += Activities[msg.sender][i].points;
+        }
+        return totalPoints;
+    }
+}

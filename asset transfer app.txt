@@ -1,0 +1,16 @@
+login as root
+git clone https://github.com/rshrimp/-Asset-Transfer-app-using-hyperledger-Fabric-Blockchain.git asset-transfer-app
+cd asset-transfer-app
+./scripts/c
+./scripts/cleanup.sh
+./scripts/createArtifacts.sh
+./scripts/start_network.sh
+in second terminal login as root
+cd asset-transfer-app
+./scripts/setupNetwork.sh
+docker exec -it client.Org1 bash
+fabric-ca-client register --id.name admin3 --id.type user --id.affiliation org1 --id.secret adminpw
+fabric-ca-client enroll -u http://admin3:adminpw@ca.Org1:7054 -M Admin3@Org1.com/msp
+in third terminal login as root
+cd asset-transfer-app
+./scripts/createTransferRequest.sh

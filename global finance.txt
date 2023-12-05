@@ -1,0 +1,18 @@
+contract Finance{
+    address public owner;
+    mapping (address => uint) public assetBalance;
+    constructor(){
+        owner = msg.sender;
+    }
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+    function issueAssets(address recipent, uint amount) public onlyOwner {
+        assetBalance[recipent] += amount;
+    }
+    function transferAsset(address to, uint amount) public {
+        assetBalance[msg.sender] -= amount;
+        assetBalance[to] += amount;
+    }
+}

@@ -1,0 +1,33 @@
+contract CarAuction{
+    address public owner;
+    uint public highestBid;
+    address public highestBidder;
+    struct Car{
+        string model;
+        uint reservePrice;
+    }
+    mapping (uint => Car) public car;
+    uint public carCount;
+    constructor(){
+        owner = msg.sender;
+    }
+    function addCar (string memory _model, uint _reservePrice) public {
+        require(msg.sender == owner, "Only owner can add car");
+        uint carId = carCount++;
+        car[carId] = Car(_model, _reservePrice);
+    }
+    function placeBid (uint carId) public payable {
+        require(msg.value > highestBid);
+        if(highestBid>0){
+            payable (highestBidder).transfer(highestBid);
+        }
+        highestBidder = msg.sender;
+        highestBid = msg.value;
+    }
+    function withdraw () public {
+        require(msg.sender == owner);
+        uint amount = highestBid;
+        highestBid = 0;
+        payable (msg.sender).transfer(amount);
+    }
+}

@@ -1,0 +1,8 @@
+git clone https://github.com/IBM/InteractingWithABlockchainNetwork.git
+cd InteractingWithABlockchainNetwork
+./build.sh
+docker ps
+docker logs fitcoin-ca
+cd testApplication/
+npm install
+node index.js
